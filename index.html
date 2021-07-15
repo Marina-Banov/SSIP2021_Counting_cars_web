@@ -10,7 +10,7 @@
     <div class="cont__heading">
       <h1>P5: Counting Cars</h1>
       <div>
-        <a href="py.html" target="_blank">Check out our code!</a>
+        <a href="SSIP_Project_CarDetectionAndCounting.html" target="_blank">Check out our code!</a>
         <p>Contributors: Anamarija Čavka, Marina Banov, Luka Rogelj</p>
       </div>
     </div>
@@ -22,15 +22,30 @@
           <div class="el__inner">
             <div class="el__bg"></div>
             <div class="el__preview-cont">
-              <h2 class="el__heading">Section 1<br/>The problem</h2>
+              <h2 class="el__heading">Section 1<br/>The task</h2>
             </div>
             <div class="el__content">
-              <div class="el__text">The problem</div>
+              <div class="el__text">The task</div>
               <ul>
-                <li><a href="http://cnrpark.it/">CNR+EXT Park Dataset</a></li>
-                <li>Task: count all cars in the image, give every car a unique id (number)</li>
+                <li>Task: count all cars in the image, give every car a unique id (number)
+                  <ul>
+                    <li>Detection involves localization of the objects (at bounding box level) and classification</li>
+                    <li>Evaluate detection performance in terms of average precision (AP)</li>
+                  </ul>
                 <li>Input: a digital image or video streams of cars in a parking lot</li>
                 <li>Output: detection of cars in the image (bounding box with confidence score)</li>
+                <li><a href="http://cnrpark.it/">CNR+EXT Park Dataset</a></li>
+              </ul>
+              <h4>The dataset</h4>
+              <ul>
+              <li>Images of the parking lot:</li>
+                <ul>
+                  <li>Conditions: sunny, overcast, rainy</li>
+                  <li>Month: November 2015, December 2015, January 2016, February 2016</li>
+                  <li>Nb. of cameras: 9</li>
+                  <li>Hour: 7:00-18:00</li>
+                  <li>Overall: 4323 images</li>
+                </ul>
               </ul>
               <div class="el__close-btn"></div>
             </div>
@@ -50,23 +65,20 @@
           <div class="el__inner">
             <div class="el__bg"></div>
             <div class="el__preview-cont">
-              <h2 class="el__heading">Section 2<br/>Data</h2>
+              <h2 class="el__heading">Section 2<br/>Model</h2>
             </div>
             <div class="el__content">
-              <div class="el__text">Data</div>
-              <h4>Images of the parking lot:</h4>
+              <div class="el__text">Model</div>
+              <h4>Model of choice - YOLOv3</h4>
               <ul>
-                <li>Conditions: sunny, overcast, rainy</li>
-                <li>Month: November 2015, December 2015, January 2016, February 2016</li>
-                <li>Nb. of cameras: 9</li>
-                <li>Hour: 7:00-18:00</li>
-                <li>Overall: 4323 images</li>
+                <li>Limited time frame for our project</li>
+                <li>Available online implementation in TF 2.0</li>
+                <li>Pretrained Darknet weights</li>
+                <ul>
+                  <li>Could not retrain even few layers due to Google Colab limited resources and frequent runtime errors</li>
+                </ul>
+                <li>COCO dataset has cars</li>
               </ul>
-              <h4>Data is splited to: 90% train, 5% validation and 5% test</h4>
-              <div class="el__image_row">
-                <img src="images/Histogram1.png"/>
-                <img src="images/Histogram2.png"/>
-              </div>
               <div class="el__close-btn"></div>
             </div>
           </div>
@@ -85,10 +97,64 @@
           <div class="el__inner">
             <div class="el__bg"></div>
             <div class="el__preview-cont">
-              <h2 class="el__heading">Section 3<br/>Model</h2>
+              <h2 class="el__heading">Section 3<br/>Problems</h2>
             </div>
             <div class="el__content">
-              <div class="el__text">Model</div>
+              <div class="el__text">Problems</div>
+              <ul>
+                <li>Mismatch between project objective and dataset original use-case</li>
+                <ul>
+                  <li>Original use-case: Parking Lot Occupancy</li>
+                  <li>Project Objective: Detect and count cars in image</li>
+                </ul>
+                <li>Ill-fitting boxes &#8594; Issues with IoU</li>
+                <li>Unmarked cars &#8594; Overestimating our FPs</li>
+                <li>Marked negatives &#8594; Overestimating our FNs</li>
+                <li>Dataset not suitable for training!</li>
+                <ul><li>Would not generate well!</li></ul>
+              </ul>
+              <div class="el__image_row">
+                <img src="images/2016-02-12_0730_ground_truth.png"/>
+                <img src="images/2016-02-12_0730.jpg"/>
+              </div>
+              <div class="el__image_row">
+                <img src="images/2016-02-12_1212_ground_truth.png"/>
+                <img src="images/2016-02-12_1212.jpg"/>
+              </div>
+              <div class="el__image_row">
+                <img src="images/2015-11-20_1214_ground_truth.png"/>
+                <img src="images/2015-11-20_1214.jpg"/>
+              </div>
+              <li>Occlusion from trees</li>
+              <div class="el__image_row">
+                <img src="images/2015-11-12_1445_ground_truth.png"/>
+                <img src="images/2015-11-12_1445.jpg"/>
+              </div>
+              <li>Sun Glare</li>
+              <div class="el__image_row">
+                <img src="images/sun_gt.png"/>
+                <img src="images/sun.png"/>
+              </div>
+              <li>Large groups of vehicles detected with one bounding box</li>
+              <div class="el__image_row">
+                <img src="images/1_gt.png"/>
+                <img src="images/1.png"/>
+              </div>
+              <li>Night-time</li>
+              <div class="el__image_row">
+                <img src="images/night_gt.png"/>
+                <img src="images/night.png"/>
+              </div>
+              <li>Blur</li>
+              <div class="el__image_row">
+                <img src="images/blur_gt.png"/>
+                <img src="images/blur.png"/>
+              </div>
+              <li>Motorcycles</li>
+              <div class="el__image_row">
+                <img src="images/motorcycle_gt.png"/>
+                <img src="images/motorcycle.png"/>
+              </div>
               <div class="el__close-btn"></div>
             </div>
           </div>
@@ -111,29 +177,18 @@
             </div>
             <div class="el__content">
               <div class="el__text">Evaluation</div>
-              <div class="el__image_row">
-                <img src="images/2015-11-12_1445_ground_truth.png"/>
-                <img src="images/2015-11-12_1445.jpg"/>
-              </div>
+              <h4>Precision and recall by camera</h4>
+              <img src="images/precision_recall.png"/>
+              <h4>Camera 2</h4>
+              <ul><li>Unmarked parking spots</li></ul>
               <div class="el__image_row">
                 <img src="images/2015-11-20_1214_ground_truth.png"/>
                 <img src="images/2015-11-20_1214.jpg"/>
               </div>
+              <h4>Camera 8</h4>
               <div class="el__image_row">
-                <img src="images/2015-12-17_1054_ground_truth.png"/>
-                <img src="images/2015-12-17_1054.jpg"/>
-              </div>
-              <div class="el__image_row">
-                <img src="images/2016-01-14_1508_ground_truth.png"/>
-                <img src="images/2016-01-14_1508.jpg"/>
-              </div>
-              <div class="el__image_row">
-                <img src="images/2016-02-12_1212_ground_truth.png"/>
-                <img src="images/2016-02-12_1212.jpg"/>
-              </div>
-              <div class="el__image_row">
-                <img src="images/2016-02-12_0730_ground_truth.png"/>
-                <img src="images/2016-02-12_0730.jpg"/>
+                <img src="images/camera8_ground_truth.png"/>
+                <img src="images/camera8.png"/>
               </div>
               <div class="el__close-btn"></div>
             </div>
@@ -153,10 +208,39 @@
           <div class="el__inner">
             <div class="el__bg"></div>
             <div class="el__preview-cont">
-              <h2 class="el__heading">Section 5<br/>Results</h2>
+              <h2 class="el__heading">Section 5<br/>Conclusions</h2>
             </div>
             <div class="el__content">
-              <div class="el__text">Results</div>
+              <div class="el__text">Conclusions</div>
+              <ul>
+                <li>GIGO - Garbage In, Garbage Out</li>
+                <ul><li>Dataset is unsuitable!</li></ul>
+                <li>YOLOv3 performs quite well</li>
+                <ul><li>Penalized by poor ground truth</li></ul>
+                <li>YOLOv3 shows some systematic errors</li>
+                <ul>
+                  <li>Occluded vehicles are not detected</li>
+                  <li>Sun glare reduces detections</li>
+                  <li>Blocked/Blurred camera reduces detections</li>
+                  <li>Large groups of vehicles detected with one bounding box</li>
+                  <li>Night time performance is bad</li>
+                  <li>FPs on horizontally parked motorcycles</li>
+                </ul>
+              </ul>
+              <h4>Future work</h4>
+              <ul>
+                <li>Use YOLO to remark this dataset & Publish a paper :)</li>
+                <ul><li>And then manually fix whatever YOLO missed</li></ul>
+                <li>Train >=3 models and use agreement as measurement of success</li>
+                <ul><li>2 our of 3, 3 out of 4</li></ul>
+                <li>Try multiple models</li>
+                <li>Use pretrained models, but retrain some layers</li>
+                <ul>
+                  <li>Include files with marked parked horizontal motorcycles to combat FPs</li>
+                  <li>Include more data with sun glare, night-time, occluded vehicles, blurred vehicles, etc.</li>
+                </ul>
+                <li>Train on this dataset and evaluate how it generalizes on other car datasets</li>
+              </ul>
               <div class="el__close-btn"></div>
             </div>
           </div>
